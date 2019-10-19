@@ -10,5 +10,6 @@ func PersonRouter(route *gin.Engine) {
 	{
 		person.GET("", controller.GetPerson)
 		person.POST("", controller.AddPerson)
+		person.POST("/password", controller.UpdatePassword)
 	}
 }

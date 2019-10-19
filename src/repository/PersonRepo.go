@@ -4,6 +4,7 @@ import (
 	"../entity"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,6 +36,41 @@ func GetAllPersons() []entity.Person {
 
 func GetPersonByName(firstName string) []entity.Person {
 	return getPersonByQuery(bson.M{"firstname": firstName})
+}
+func GetPersonById(id string) []entity.Person {
+	return getPersonByQuery(bson.M{"_id": id})
+}
+
+func UpdatePassword(id string, password string) bool {
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		fmt.Println(err)
+	}
+	result := updatePersonByQuery(bson.M{"_id": objectId}, bson.M{
+		"$set": bson.M{
+			"password": password,
+		},
+	})
+	fmt.Println(result)
+	if result.ModifiedCount == 1 {
+		return true
+	}
+	return false
+}
+
+func updatePersonByQuery(filter bson.M, update bson.M) *mongo.UpdateResult {
+	client := getClient()
+	collection := client.Database(database).Collection(collection)
+
+	result, err := collection.UpdateOne(
+		context.TODO(),
+		filter,
+		update,
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return result
 }
 
 func getPersonByQuery(query bson.M) []entity.Person {

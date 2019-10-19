@@ -23,3 +23,10 @@ func AddPerson(person entity.Person) entity.Person {
 	repository.InsertNewPerson(person)
 	return person
 }
+
+func UpdatePassword(personId string, password string) bool {
+	hashedPW := entity.HashPassword(password)
+	fmt.Println(hashedPW)
+	return repository.UpdatePassword(personId, hashedPW)
+
+}
