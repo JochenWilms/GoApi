@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "551d5262-1b36-4cbd-86ef-750308a1e986",
+		"name": "GoApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Person",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"pochen\",\n    \"lastName\": \"pilms\",\n    \"email\": \"jochen@mariekerke.be\",\n    \"age\": 25,\n    \"address\": {\n        \"city\": \"Bornem\",\n        \"street\": \"K.V.Doorslearlaan\",\n        \"number\": 45,\n        \"zipCode\": 2880\n    }\n}\n"
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/person",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Persons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/person/?firstname=pochen",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"person",
+						""
+					],
+					"query": [
+						{
+							"key": "firstname",
+							"value": "pochen"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
