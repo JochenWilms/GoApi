@@ -1,13 +1,12 @@
 package main
 
 import (
-	"./controller"
-	"./router"
+	"./src/controller"
+	"./src/router"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-
 	r := gin.Default()
 
 	r.GET("/", controller.IndexController)

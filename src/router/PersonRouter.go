@@ -9,6 +9,5 @@ func PersonRouter(route *gin.Engine) {
 	person := route.Group("/person")
 	{
 		person.GET("", controller.PersonController)
-		person.POST("", controller.U)
 	}
 }

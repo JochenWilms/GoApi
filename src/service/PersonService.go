@@ -2,6 +2,7 @@ package service
 
 import (
 	"../entity"
+	"../repository"
 	"encoding/json"
 	"fmt"
 )
@@ -9,6 +10,9 @@ import (
 func GetPerson() string {
 	person := entity.Person{FirstName: "Jochen", LastName: "Wilms", Email: "jochen@mariekerke.be"}
 	person.GoCrazy()
+
+	repository.InsertNewPerson(person)
+
 	json, err := json.Marshal(person)
 	fmt.Println(person)
 
