@@ -8,6 +8,7 @@ import (
 func PersonRouter(route *gin.Engine) {
 	person := route.Group("/person")
 	{
-		person.GET("", controller.PersonController)
+		person.GET("", controller.GetPerson)
+		person.POST("", controller.AddPerson)
 	}
 }

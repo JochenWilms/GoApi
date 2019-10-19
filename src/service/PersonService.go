@@ -3,22 +3,23 @@ package service
 import (
 	"../entity"
 	"../repository"
-	"encoding/json"
 	"fmt"
 )
 
-func GetPerson() string {
-	person := entity.Person{FirstName: "Jochen", LastName: "Wilms", Email: "jochen@mariekerke.be"}
-	person.GoCrazy()
-
-	repository.InsertNewPerson(person)
-
-	json, err := json.Marshal(person)
-	fmt.Println(person)
-
-	if err != nil {
-		fmt.Errorf("error", err)
-		return "error"
+func GetPerson(param map[string][]string) []entity.Person {
+	fmt.Println(param)
+	if val, ok := param["firstname"]; ok {
+		fmt.Println(val)
+		person := repository.GetPersonByName(val[0])
+		fmt.Println(person)
+		return person
 	}
-	return string(json)
+	persons := repository.GetAllPersons()
+	fmt.Println(persons)
+	return persons
+}
+
+func AddPerson(person entity.Person) entity.Person {
+	repository.InsertNewPerson(person)
+	return person
 }
