@@ -3,16 +3,27 @@ package controller
 import (
 	"../entity"
 	"../service"
+	"./Dto"
 	"fmt"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func GetPerson(c *gin.Context) {
-
-	c.JSON(http.StatusOK, gin.H{
-		"data": service.GetPerson(c.Request.URL.Query()),
-	})
+	session := sessions.Default(c)
+	fmt.Println(session.Get("login"))
+	if session.Get("login") == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "first login",
+		})
+	} else {
+		person := service.GetPerson(c.Request.URL.Query())
+		c.JSON(http.StatusOK, Dto.PersonDto{
+			Id:   nil,
+			Data: person,
+		})
+	}
 }
 
 func AddPerson(c *gin.Context) {
@@ -23,17 +34,15 @@ func AddPerson(c *gin.Context) {
 	}
 	service.AddPerson(person)
 
-	c.JSON(http.StatusOK, gin.H{
-		"data": person,
-	})
-}
-
-type Password struct {
-	Password string `json:"password"`
+	c.JSON(http.StatusOK,
+		Dto.PersonDto{
+			Id:   person.ID,
+			Data: person,
+		})
 }
 
 func UpdatePassword(c *gin.Context) {
-	var password Password
+	var password Dto.PasswordDto
 	err := c.BindJSON(&password)
 	if err != nil {
 		fmt.Println(err)
@@ -47,15 +56,24 @@ func UpdatePassword(c *gin.Context) {
 			"error": "no person id in request.",
 		})
 	}
-
-	if !service.UpdatePassword(personId[0], password.Password) {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Update went not successful",
-		})
+	if checkIfPersonIdInSession(c, personId[0]) {
+		if !service.UpdatePassword(personId[0], password.Password) {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Update went not successful",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"data": "great success",
+			})
+		}
 	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"data": "great success",
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Login as correct person.",
 		})
 	}
+}
 
+func checkIfPersonIdInSession(c *gin.Context, personId string) bool {
+	session := sessions.Default(c)
+	return session.Get("login") == personId
 }

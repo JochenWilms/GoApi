@@ -6,7 +6,12 @@ import (
 	"fmt"
 )
 
-func GetPerson(param map[string][]string) []entity.Person {
+func FindPersonByMail(email string) entity.Person {
+	person := repository.FindPersonByMail(email)
+	return person
+}
+
+func GetPerson(param map[string][]string) entity.Person {
 	fmt.Println(param)
 	if val, ok := param["firstname"]; ok {
 		fmt.Println(val)
@@ -16,7 +21,7 @@ func GetPerson(param map[string][]string) []entity.Person {
 	}
 	persons := repository.GetAllPersons()
 	fmt.Println(persons)
-	return persons
+	return persons[0]
 }
 
 func AddPerson(person entity.Person) entity.Person {

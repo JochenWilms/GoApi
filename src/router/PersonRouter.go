@@ -6,6 +6,7 @@ import (
 )
 
 func PersonRouter(route *gin.Engine) {
+
 	person := route.Group("/person")
 	{
 		person.GET("", controller.GetPerson)
