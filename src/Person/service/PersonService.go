@@ -1,8 +1,8 @@
 package service
 
 import (
-	"../entity"
-	"../repository"
+	"desyco.com/Person/entity"
+	"desyco.com/Person/repository"
 	"fmt"
 )
 

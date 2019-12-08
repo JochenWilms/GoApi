@@ -1,7 +1,7 @@
 package router
 
 import (
-	"../controller"
+	"desyco.com/Person/controller"
 	"github.com/gin-gonic/gin"
 )
 

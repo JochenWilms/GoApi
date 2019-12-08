@@ -1,7 +1,7 @@
 package Dto
 
 import (
-	"../../entity"
+	"desyco.com/Person/entity"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

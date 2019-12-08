@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"../entity"
+	"desyco.com/Person/entity"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
